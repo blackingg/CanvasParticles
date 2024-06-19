@@ -120,7 +120,7 @@ export const ParticleCircle = () => {
         />
         <button
           onClick={handleSetParticles}
-          className="ml-2 bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 transition duration-300"
+          className="ml-2 bg-[#e23131] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#981919] transition duration-300"
         >
           Set Particles
         </button>
