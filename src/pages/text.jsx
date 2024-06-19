@@ -74,16 +74,14 @@ export const ParticleText = () => {
         const dy = particle.originY - particle.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < 150) {
-          particle.vx += (particle.originX - particle.x) * 0.01;
-          particle.vy += (particle.originY - particle.y) * 0.01;
-        } else {
-          particle.vx += (particle.originX - particle.x) * 0.005;
-          particle.vy += (particle.originY - particle.y) * 0.005;
-        }
+        particle.vx += dx * 0.01;
+        particle.vy += dy * 0.01;
 
         particle.x += particle.vx;
         particle.y += particle.vy;
+
+        particle.vx *= 0.95; // Damping effect
+        particle.vy *= 0.95; // Damping effect
 
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
@@ -118,8 +116,9 @@ export const ParticleText = () => {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < 90) {
-          particle.vx += dx * 0.02;
-          particle.vy += dy * 0.02;
+          const force = (90 - distance) / 90;
+          particle.vx += dx * force * 0.1;
+          particle.vy += dy * force * 0.1;
           particle.color = gradient;
         } else {
           particle.color = "white";
@@ -135,24 +134,22 @@ export const ParticleText = () => {
   }, [text]);
 
   return (
-    <div className="">
-      <input
-        type="text"
-        value={text}
-        onChange={handleTextChange}
-        placeholder="Enter text"
-        style={{
-          position: "absolute",
-          top: "30%",
-          left: "10px",
-          zIndex: 10,
-        }}
-      />
-      <canvas
-        className="App"
-        ref={canvasRef}
-        style={{ display: "block" }}
-      ></canvas>
-    </div>
+    <>
+      <div className="relative w-full h-screen">
+        <div className="absolute right-4 top-8 z-50 flex items-center">
+          <input
+            type="text"
+            value={text}
+            onChange={handleTextChange}
+            placeholder="Enter text"
+            className="border border-gray-300 rounded-md py-2 px-4 outline-none shadow-inner"
+          />
+        </div>
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full"
+        ></canvas>
+      </div>
+    </>
   );
 };

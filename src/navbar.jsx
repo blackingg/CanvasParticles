@@ -15,11 +15,7 @@ export const Navbar = ({ items }) => {
   };
 
   return (
-    <nav className="z-50 w-full absolute px-4 md:pl-24 md:pr-12 py-4 flex justify-between md:items-center font-medium">
-      <div
-        className="md:hidden absolute right-6 top-9"
-        onClick={handleMenuToggle}
-      ></div>
+    <nav className="z-50 w-fit absolute ml-16 mt-6 rounded-md px-4 py-4 flex items-center font-medium bg-white">
       <ul
         className={
           "flex-col bg-white md:bg-transparent shadow-md md:shadow-none py-4 px-12 md:p-0 md:flex-row md:flex gap-1 md:gap-4 md:items-center text-lg "
@@ -29,9 +25,9 @@ export const Navbar = ({ items }) => {
           <li key={item.page}>
             <Link
               to={`/${item.page}`}
-              className={`flex justify-center items-center gap-1 rounded-md md:bg-[#ffd900ee] px-3 py-2 text-sm font-semibold text-[green-700] md:hover:text-[#B22222] ${
+              className={`flex justify-center items-center gap-1 rounded-md bg-[#ff0800ee] px-3 py-2 text-sm font-semibold text-[#000000ee] hover:text-[#B22222] ${
                 currentPage === `/${item.page}`
-                  ? "active text-[#B22222] italic md:hover:shadow-none"
+                  ? "active text-[#ffffff] italic md:hover:shadow-none"
                   : "md:shadow-lg md:shadow-[#b2222251] "
               }`}
               onClick={() => setMenuOpen(false)}

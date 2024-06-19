@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-const numParticles = 1800;
+const MIN_PARTICLES = 1800;
 
 function getRandomPositionInCircle(radius) {
   const angle = Math.random() * Math.PI * 2;
@@ -13,6 +13,8 @@ function getRandomPositionInCircle(radius) {
 export const ParticleCircle = () => {
   const canvasRef = useRef(null);
   const particles = useRef([]);
+  const [numParticles, setNumParticles] = useState(MIN_PARTICLES);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -25,6 +27,7 @@ export const ParticleCircle = () => {
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
+    particles.current = [];
     for (let i = 0; i < numParticles; i++) {
       const { x, y } = getRandomPositionInCircle(radius);
       particles.current.push({
@@ -46,7 +49,6 @@ export const ParticleCircle = () => {
         ctx.fillStyle = particle.color;
         ctx.fill();
         ctx.closePath();
-        setTimeout(() => {}, 20);
       });
 
       requestAnimationFrame(animate);
@@ -91,12 +93,42 @@ export const ParticleCircle = () => {
     return () => {
       canvas.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [numParticles]);
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleSetParticles = () => {
+    const newNumParticles = parseInt(inputValue, 10);
+    if (isNaN(newNumParticles) || newNumParticles < MIN_PARTICLES) {
+      alert(`Number of particles cannot be less than ${MIN_PARTICLES}.`);
+    } else {
+      setNumParticles(newNumParticles);
+    }
+  };
 
   return (
-    <canvas
-      className="App"
-      ref={canvasRef}
-    ></canvas>
+    <div className="relative w-full h-screen">
+      <div className="absolute right-4 top-4 z-50 flex items-center">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder={`Enter number of particles (min ${MIN_PARTICLES})`}
+          className="border border-gray-300 rounded-md py-2 px-4 outline-none shadow-inner"
+        />
+        <button
+          onClick={handleSetParticles}
+          className="ml-2 bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 transition duration-300"
+        >
+          Set Particles
+        </button>
+      </div>
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full"
+      ></canvas>
+    </div>
   );
 };
