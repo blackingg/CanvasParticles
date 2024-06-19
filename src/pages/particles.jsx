@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const MIN_PARTICLES = 1800;
+const MIN_PARTICLES = 0;
 
 function getRandomPositionInCircle(radius) {
   const angle = Math.random() * Math.PI * 2;
@@ -75,6 +75,12 @@ export const ParticleCircle = () => {
         const dx = particle.x - mouseX;
         const dy = particle.y - mouseY;
         const distance = Math.sqrt(dx * dx + dy * dy);
+
+        particle.vx += dx * 0.01;
+        particle.vy += dy * 0.01;
+
+        particle.vx *= 0.95; // Damping effect
+        particle.vy *= 0.95; // Damping effect
 
         if (distance < 90) {
           particle.x += (dx / distance) * 6;
