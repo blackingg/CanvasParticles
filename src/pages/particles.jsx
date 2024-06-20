@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const MIN_PARTICLES = 0;
+const MIN_PARTICLES = 1800;
 
 function getRandomPositionInCircle(radius) {
   const angle = Math.random() * Math.PI * 2;
